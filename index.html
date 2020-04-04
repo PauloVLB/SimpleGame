@@ -9,6 +9,36 @@
 
     <body>
         <canvas id="screen" width="10" height="10"></canvas>
+        
+        <div id="infoContainer">
+            <h1>Score: </h1>
+            <h1 id="score">0</h1>
+            <br>
+            <h1>Spawn Time: </h1>
+            <input type="number" value="2000" id="spawnTime" onchange="changeTime()">
+            <h1>ms</h1>
+            <br>
+
+            <div id="fixedContainer">
+                <label><input type="checkbox" id="fixed" onclick="changeFixed()"> Fixed</label>
+            </div>
+            
+            <br><br>
+            <p>* You are the black square and the green squares are fruits.</p>
+            <p>* You need to take as many fruits as you can.</p>
+            <p>* Each fruit gives you 1 point.</p>
+            <p>* There is a 10% chance that a RED fruit will appear.</p>
+            <p>* RED fruits are worth 10 points.</p>
+            <p>* You can change the spawn time.</p>
+            <p>* By default, the spawn time is 2000 - (your socre * 10).</p>
+            <p>* You can fix the spawn time by checking the "Fixed" checkbox.</p>
+
+            <footer>
+                <p>Enjoy it :)</p>
+
+                <p>&COPY; 2019 Paulo Vitor. All rights reserved</p>
+            </footer>
+        </div>
         <script src="scripts/main.js"></script>
     </body>
 </html>

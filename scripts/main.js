@@ -2,13 +2,8 @@ const screen = document.getElementById('screen');
 const context = screen.getContext('2d');
 
 const game = {
-    players: {
-        'player1': { x: 0, y: 9},
-    },
-
-    fruits: {
-        'fruit1': { x: 3, y: 2}
-    }
+    'player': { x: 0, y: 9 },
+    'fruit': { x: 3, y: 2, isRed: false}
 };
 
 const movements = {
@@ -30,29 +25,75 @@ const movements = {
 }
 
 document.addEventListener('keydown', (event) => {
-    movements[event.key](game.players.player1);
+    movements[event.key](game.player);
 });
 
-renderScreen();
+let score = 0;
+let spawnTime = document.getElementById("spawnTime").value;
+let spawn = setInterval(spawnFruit, spawnTime);
+let fixed = false;
 
+renderScreen();
 function renderScreen() {
     clearScreen();
 
-    for (const playerId in game.players) {
-        const player = game.players[playerId];
+    const player = game.player;
+    const fruit = game.fruit;
 
-        context.fillStyle = 'black';
-        context.fillRect(player.x, player.y, 1, 1);
-    }
+    context.fillStyle = 'black';
+    context.fillRect(player.x, player.y, 1, 1);
+    
+    if(fruit !== undefined) {
+        let fruitColor = 'green';
+        let increment = 1;
 
-    for (const fruitId in game.fruits) {
-        const fruit = game.fruits[fruitId];
+        if(fruit.isRed){
+            fruitColor = 'red';
+            increment = 10;
+        } 
 
-        context.fillStyle = 'green';
+        context.fillStyle = fruitColor;
         context.fillRect(fruit.x, fruit.y, 1, 1);
+
+        if (player.x === fruit.x && player.y === fruit.y) {
+            delete game.fruit;
+
+            score += increment;
+            document.getElementById("score").innerHTML = score;
+            
+            if (!fixed) {
+                spawnTime = 2000 - (score * 10);
+            }
+            clearInterval(spawn);
+            spawn = setInterval(spawnFruit, spawnTime);
+            
+            document.getElementById("spawnTime").value = spawnTime;
+        }
     }
 
     requestAnimationFrame(renderScreen);
+}
+
+function changeTime() {
+    spawnTime = document.getElementById("spawnTime").value;
+    clearInterval(spawn);
+    spawn = setInterval(spawnFruit, spawnTime);
+}
+
+function spawnFruit() {
+    let chance = false;
+    if (Math.floor(Math.random() * 10) === 1){ 
+        chance = true; 
+    }
+    game.fruit = {
+        x: Math.floor(Math.random() * 10),
+        y: Math.floor(Math.random() * 10),
+        isRed: chance
+    };
+}
+
+function changeFixed() {
+    fixed = document.getElementById("fixed").checked;
 }
 
 function clearScreen() {
