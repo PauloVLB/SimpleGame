@@ -1,7 +1,7 @@
 # SimpleGame
 A simple game to train JavaScript concepts.
 
-### Here's a demonstration
+### Here's a demonstration:
 
 <p align="center">
   <img src="img/example.gif" width=500></img>
